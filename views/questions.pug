@@ -1,0 +1,170 @@
+include ./common/layout
+include ./common/new_modal
+include ./common/new_form
+section.header
+  include ./common/header
+section.main
+  include ./common/nav-bar
+  .main--container
+    div.add_button
+      .row
+        .col-md-3
+          .form-group.focused
+            label(for='searchOrganizationCode') Select Organization:
+            select#searchOrganizationCode(name='dropdown' class='custom-select form-control' onchange='qmSearchOrganizationCode(event, searchProductCode)')
+              option(value='')
+              each option in organization
+                option(value=option._id)= option.organization_name
+        .col-md-3
+          .form-group.focused
+            label(for='searchProductCode') Select Product:
+            select#searchProductCode(name='dropdown' class='custom-select form-control')
+              option(value='')
+        .col-md-2
+          button(type='button' id='searchQuestion' onclick='getQuestion()')
+            | Search
+        .col-md-2
+          button(type='button' id='openQuestionModel' onclick='openQuestionPopup()')
+            | ADD QUESTIONS
+    .table
+      .section--title
+        div
+      table(id="questionsTable")
+        thead
+          tr
+            th S.No
+            th Question Type
+            th Question Language
+            th question
+        tbody(id="questionsTableBody")
+          each question, index in questions
+            tr
+              td= index + 1
+              td= question.question_type
+              td= question.language
+              td
+                button(type='button' id='show_questions_'+(index + 1) class='show_questions' onclick=`openQuestion('${JSON.stringify(question.question)}')`) Show Question
+    #GetQuoteForm.modal.fade.modal-align-mobile-bottom.show(style='display: none;')
+      .modal-dialog.modal-dialog-lg.modal-dialog-center
+        .modal-content
+          .modal-header
+            button.modal-close(type='button' id='closePopup1' onclick='closePopUp(GetQuoteForm)')
+              span.sr-only close
+          .modal-body
+            form#qaForm
+              div#step-1-form.step-1-form
+                h2.heading-xlarge.text-center Organization Details
+                br
+                .mobile-scroll-popup
+                  .row
+                    .col-md-6
+                      .form-group.focused
+                        label(for='organizationCode') Select Organization:
+                        select#organizationCode(name='dropdown' class="form-control" onchange='qmSearchOrganizationCode(event, productCode)')
+                          option(value='') 
+                          each option in organization
+                            option(value=option._id)= option.organization_name
+                    .col-md-6
+                      .form-group.focused
+                        label(for='productCode') Select Product:
+                        select#productCode(name='dropdown' class="form-control")
+                    .col-md-12.text-center
+                      button.button.button--large.button--blue.button--mobile(type='button', id='step-1', onclick='questionStepOne()')
+                        span Continue
+              div#step-2-form.step-2-form
+                h2.heading-xlarge.text-center Question Details
+                br 
+                .mobile-scroll-popup
+                  .row.new_row
+                    .col-md-4
+                      .form-group.focused
+                        label(for='qaLanguage') Language:
+                        select#qaLanguage(name='qa_language' class='custom-select form-control' disabled=true)
+                          option(value='TAMIL') TAMIL
+                          option(value='ENGLISH') ENGLISH
+                          option(value='HINDI') HINDI
+                    .col-md-3
+                      .form-group.focused
+                        label(for='qaInputType') Input Type:
+                        select#qaInputType(name='qainputtype' class='custom-select form-control' onchange='inputTypeChange()')
+                          option(value='')
+                          option(value='inputBox') INPUT
+                          option(value='radio') RADIO
+                    .col-md-2.input-group.hidden.input-radio
+                      .form-group
+                        button.button.button--large.button--blue.button--mobile(type='button', id='addRadioButton' onclick='radioButton()')
+                          span Add
+                    .col-md-12.remove_value
+                      .form-group.focused
+                        label(for='QuestionText') Question:
+                        textarea#QuestionText(name='QuestionText' rows="4" cols="100" class="form-control-q-pad")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='min_length') Min Leangth:
+                        input#minLength(type='text' name='min_length' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='min_length_err') Min Leangth Error:
+                        input#minLengthErr(type='text' name='min_length_err' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='max_length ') Max Leangth:
+                        input#maxLength(type='text' name='max_length' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='max_length_err') Max Leangth Error:
+                        input#maxLengthErr(type='text' name='max_length_err' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='validationType') Validation Type:
+                        select#validationType(name='dropdown' class='custom-select form-control')
+                          option(value='')
+                          option(value='alphaValidation') Alpha Only
+                          option(value='numericValidation') Numeric Validation
+                          option(value='panValidation') Pan Validation
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='regex') Regex:
+                        input#regex(type='text' name='regex' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='regex_err') Regex Error:
+                        input#regexErr(type='text' name='regex_err' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='required_err') Required Error:
+                        input#RequiredErr(type='text' name='required_err' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='placeHolder') placeHolder:
+                        input#placeHolder(type='text' name='placeHolder' class="form-control")
+                    .col-md-6.input-group.hidden.input-inputBox.remove_value
+                      .form-group.focused
+                        label(for='validationType') AutoComplete:
+                        select#autoComplete(name='dropdown' class='custom-select form-control')
+                          option(value='off') Off
+                          option(value='on') on
+                    .col-md-6.input-group.hidden.input-radio.radio_0.remove_value
+                      .form-group.focused
+                        label(for='OptionText') Option:
+                        textarea#OptionText(name='OptionText' rows="4" cols="50" class="form-control")
+                    .col-md-6.input-group.hidden.input-radio.radio_0.remove_value
+                      .form-group.focused
+                        label(for='OptionTitle') Option title:
+                        textarea#OptionTitle(name='OptionTitle' rows="4" cols="50" class="form-control")
+                  .row.button_qa_custom_two
+                    .button_custom_two
+                      button.button.button--large.button--blue.button--mobile(type='button', id='add_questions_array', onclick='addQuestionArray()')
+                        span Continue
+                      button.button.button--large.button--blue.button--mobile(type='button', id='step-2', onclick='questionSave()' disabled=true)
+                        span Submit
+    #openQuestions.modal.fade.modal-align-mobile-bottom.show(style='display: none;')
+      .modal-dialog.modal-dialog-lg.modal-dialog-center
+        .modal-content
+          .modal-header
+            button.modal-close(type='button' id='closePopup2' onclick='closePopUp(openQuestions)')
+              span.sr-only close
+          .modal-body
+            div#question-show
+              h2#questionTxt.heading-xlarge.text-center.json-format
+script(src='cms/main.js')

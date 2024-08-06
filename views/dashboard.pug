@@ -1,0 +1,84 @@
+include ./common/layout
+section.header
+  include ./common/header
+section.main
+  include ./common/nav-bar
+  .main--container
+    .section--title
+      h3.title Welcome back, Jenny
+      select#date(name='date')
+        option(value='last7') Last 7 days
+        option(value='lastmonth') Last month
+        option(value='lastyear') Last year
+        option(value='alltime') All time
+    .cards
+      .card.card-1
+        .card--title
+          span.card--icon.icon
+            i.ri-community-line
+          span Organization
+        h3.card--value
+          | $432,576.34 
+          i.ri-arrow-up-circle-fill.up
+        h5.more 4,234 more than usual
+        .chart
+          canvas#sales
+      .card.card-2
+        .card--title
+          span.card--icon.icon
+            i.ri-handbag-line
+          span Products
+        h3.card--value
+          | 2,567 
+          i.ri-arrow-down-circle-fill.down
+        h5.less 234 less than usual
+        .chart
+          canvas#orders
+      .card.card-3
+        .card--title
+          span.card--icon.icon
+            i.ri-question-line
+          span Questions
+        h3.card--value
+          | 587 
+          i.ri-arrow-up-circle-fill.up
+        h5.more 23 more than usual
+        .chart
+          canvas#products
+    .table
+      .section--title
+        div
+      table
+        thead
+          tr
+            th S.No
+            th Organization Name
+            th Product Name
+            th Status
+        tbody
+          tr
+            td 1
+            td SLIC
+            td WEBSITE
+            td active
+          tr
+            td 2
+            td SHFL
+            td WEBSITE
+            td active
+          tr
+            td 3
+            td COPS
+            td CRM
+            td active
+        tr
+            td 3
+            td SHFL CRM
+            td CRM
+            td active
+script(src='cms/main.js')
+//- script(src='cms/sales.js')
+//- script(src='cms/orders.js')
+//- script(src='cms/products.js')
+//- script(src='cms/customers.js')
+//- script(src='cms/tarsale.js')

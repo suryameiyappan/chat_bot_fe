@@ -1,0 +1,51 @@
+include ./common/layout
+include ./common/new_modal
+include ./common/new_form
+section.header
+  include ./common/header
+section.main
+  include ./common/nav-bar
+  .main--container
+    div.add_button
+      button(type='button' id='openModel' onclick='openComapny()')
+        | ADD ORGANIZATION
+    br
+    .table
+      table
+        thead
+          tr
+            th S.No
+            th Organization Code
+            th Organization Name
+            th Status
+        each data, index in resData.organization
+          tr
+            td= index + 1
+            td= data.organization_code
+            td= data.organization_name
+            td= data.status
+    #openOrganizationAddModal.modal.fade.modal-align-mobile-bottom.show(style='display: none;')
+      .modal-dialog.modal-dialog-lg.modal-dialog-center
+        .modal-content
+          .modal-header
+            button.modal-close(type='button' id='closePopup1' onclick='closePopUp(openOrganizationAddModal)')
+              span.sr-only close
+          .modal-body
+            form(id="form-question")
+              div#step-1-form.step-1-form
+                h2.heading-xlarge.text-center Organization details
+                br  
+                .mobile-scroll-popup
+                  .row
+                    .col-md-6
+                      .form-group.focused
+                        label(for='organization_code') Organization Code:
+                        input#organizationCode(type='text' name='organization_code' required='' class="form-control")
+                    .col-md-6
+                      .form-group.focused
+                        label(for='organization_name') Organization Name:
+                        input#organizationName(type='text' name='organization_name'  required='' class="form-control")
+                    .col-md-6.text-center
+                      button.button.button--large.button--blue.button--mobile(type='button', id='organizationDetails' onclick='submitOrganizationDetails()')
+                        span Continue
+script(src='cms/main.js')
